@@ -1,5 +1,5 @@
-import { config } from 'dotenv';
 import postgres from 'postgres';
+import { dbConfig } from '../db-config';
 import {
   chat,
   message,
@@ -11,15 +11,8 @@ import { drizzle } from 'drizzle-orm/postgres-js';
 import { inArray } from 'drizzle-orm';
 import { appendResponseMessages, UIMessage } from 'ai';
 
-config({
-  path: '.env.local',
-});
 
-if (!process.env.POSTGRES_URL) {
-  throw new Error('POSTGRES_URL environment variable is not set');
-}
-
-const client = postgres(process.env.POSTGRES_URL);
+const client = postgres(dbConfig.connectionString, { ssl: dbConfig.ssl });
 const db = drizzle(client);
 
 const BATCH_SIZE = 50; // Process 10 chats at a time
