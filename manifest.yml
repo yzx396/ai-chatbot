@@ -1,0 +1,11 @@
+applications:
+  - name: sap-chat
+    memory: 512M
+    instances: 1
+    routes:
+      - route: sap-chat.cfapps.sap.hana.ondemand.com
+    path: .
+    buildpacks:
+      - nodejs_buildpack
+    env:
+      NODE_ENV: production
